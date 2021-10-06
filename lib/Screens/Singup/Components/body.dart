@@ -5,9 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
-import 'package:trueque/Screens/Login/Components/ForgPassw.dart';
-import 'package:trueque/Screens/Login/Components/background.dart';
-import 'package:trueque/Screens/Singup/singup_screen.dart';
+import 'package:trueque/Screens/Login/login_screen.dart';
+import 'package:trueque/Screens/Singup/Components/background.dart';
 import 'package:trueque/constants.dart';
 
 class Body extends StatelessWidget {
@@ -24,7 +23,7 @@ class Body extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: size.height * 0.1),
           Text(
-            'Iniciar sesión',
+            'Registrate',
             style: TextStyle(
               fontSize: 26.0,
               fontWeight: FontWeight.bold,
@@ -44,14 +43,9 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: size.height * 0.06),
           RoundedButton(
-            text: 'Ingresar',
+            text: 'Registrar',
             press: () {},
             pd: 10,
-          ),
-          ForgPassw(
-            press: () {
-              print('Hola');
-            },
           ),
           SizedBox(height: size.height * 0.15),
           Text(
@@ -83,16 +77,19 @@ class Body extends StatelessWidget {
             ],
           ),
           SizedBox(height: size.height * 0.02),
-          AlrHavAcc(press: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return SingupScreen();
-                },
-              ),
-            );
-          })
+          AlrHavAcc(
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return LoginScreen();
+                  },
+                ),
+              );
+            },
+            login: false,
+          )
         ],
       ),
     );

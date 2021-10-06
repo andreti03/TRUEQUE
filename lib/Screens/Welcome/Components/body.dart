@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Screens/Login/login_screen.dart';
+import 'package:trueque/Screens/Singup/singup_screen.dart';
 import 'package:trueque/Screens/Welcome/Components/background.dart';
 
 class Body extends StatelessWidget {
@@ -42,7 +43,16 @@ class Body extends StatelessWidget {
           ),
           RoundedButton(
             text: 'Registrarse',
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SingupScreen();
+                  },
+                ),
+              );
+            },
             pd: 10,
           ),
         ],
