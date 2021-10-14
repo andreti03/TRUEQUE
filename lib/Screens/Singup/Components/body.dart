@@ -66,7 +66,7 @@ class Body extends StatelessWidget {
                 SocialIcon(
                   asst: 'assets/icons/google.svg',
                   press: () {
-                    print('object');
+                    print(size);
                   },
                 ),
                 SocialIcon(
