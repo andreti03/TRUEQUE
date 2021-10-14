@@ -12,51 +12,52 @@ class Body extends StatelessWidget {
     // Size size = MediaQuery.of(context).size;
 
     return Background(
-        child: SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 150),
-            child: Text(
-              'TRUEQUE!',
-              style: TextStyle(
-                fontSize: 48.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 150),
+              child: Text(
+                'TRUEQUE!',
+                style: TextStyle(
+                  fontSize: 48.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          RoundedButton(
-            text: 'Ingresar',
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return LoginScreen();
-                  },
-                ),
-              );
-            },
-            pd: 10,
-          ),
-          RoundedButton(
-            text: 'Registrarse',
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SingupScreen();
-                  },
-                ),
-              );
-            },
-            pd: 10,
-          ),
-        ],
+            RoundedButton(
+              text: 'Ingresar',
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginScreen();
+                    },
+                  ),
+                );
+              },
+              pd: 10,
+            ),
+            RoundedButton(
+              text: 'Registrarse',
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SingupScreen();
+                    },
+                  ),
+                );
+              },
+              pd: 10,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
