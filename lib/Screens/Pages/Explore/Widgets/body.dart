@@ -15,9 +15,18 @@ class Body extends StatelessWidget {
       SizedBox(
         height: 20,
       ),
-      CategoryGroupWidget(),
-      CategoryGroupWidget(),
-      CategoryGroupWidget(),
+      CategoryGroupWidget(
+        title: 'Cerca de ti',
+        functionViewMore: () {},
+      ),
+      CategoryGroupWidget(
+        title: 'Frutas y verduras',
+        functionViewMore: () {},
+      ),
+      CategoryGroupWidget(
+        title: 'Varios',
+        functionViewMore: () {},
+      ),
     ]));
   }
 }

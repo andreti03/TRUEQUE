@@ -1,7 +1,16 @@
+import 'dart:ffi';
+
 import 'item_card.dart';
 import 'package:flutter/material.dart';
 
 class CategoryGroupWidget extends StatelessWidget {
+  const CategoryGroupWidget(
+      {Key? key, required this.title, required this.functionViewMore})
+      : super(key: key);
+
+  final String title;
+  final Function()? functionViewMore;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,13 +20,13 @@ class CategoryGroupWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Cerca de ti',
+              title,
               style: TextStyle(fontSize: 30),
             ),
           ),
           Spacer(),
           TextButton(
-              onPressed: () {},
+              onPressed: functionViewMore,
               child: Text(
                 "Ver mas",
                 style: TextStyle(color: Colors.green),
@@ -27,16 +36,56 @@ class CategoryGroupWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
-              ItemCardWidget(),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
+              ItemCardWidget(
+                productName: "Papa Pastusa",
+                productCost: 350,
+                imagePath: "assets/images/Papa_pastusa.png",
+              ),
             ],
           ),
         )

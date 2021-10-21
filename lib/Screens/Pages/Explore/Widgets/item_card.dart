@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ItemCardWidget extends StatelessWidget {
+  const ItemCardWidget(
+      {Key? key,
+      required this.productName,
+      required this.productCost,
+      required this.imagePath})
+      : super(key: key);
+
+  final String productName;
+  final int productCost;
+  final String imagePath;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,7 +20,7 @@ class ItemCardWidget extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Image.asset(
-            "assets/images/Papa_pastusa.png",
+            imagePath,
             width: 200,
             //height: 200,
           ),
@@ -38,12 +49,12 @@ class ItemCardWidget extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Papa Pastusa\n",
+                          text: "$productName\n",
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: "\$350/u",
+                          text: "\$$productCost/u",
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
