@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'Profile/profile_page.dart';
-import 'Discover/discover_page.dart';
-import 'Explore/explore_page.dart';
-import 'Learn/learn_page.dart';
+import 'package:trueque/Screens/Pages/Discover/discover_page.dart';
+import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
+import 'package:trueque/Screens/Pages/Learn/learn_page.dart';
+import 'package:trueque/Screens/Pages/Profile/profile_page.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {

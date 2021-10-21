@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'Components/body.dart';
 
 class LearnPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('LearnPage'),
+    return Scaffold(
+      body: Body(),
     );
   }
 }
