@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trueque/Domain/Authentication/sign_in.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
@@ -65,12 +66,14 @@ class Body extends StatelessWidget {
               SocialIcon(
                 asst: 'assets/icons/facebook.svg',
                 press: () {
+                  signInWithFacebook();
                   print('object');
                 },
               ),
               SocialIcon(
                 asst: 'assets/icons/google.svg',
                 press: () {
+                  signInWithGoogle();
                   print('object');
                 },
               ),
@@ -84,7 +87,7 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(press: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
