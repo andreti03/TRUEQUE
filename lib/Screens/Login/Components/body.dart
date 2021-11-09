@@ -19,6 +19,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final AuthenticationController _authController = AuthenticationController();
+    String email = '';
+    String password = '';
     return Background(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -35,18 +38,23 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.1),
           RoundedInput(
             hintText: 'Email',
-            onChanged: (value) {},
+            onChanged: (value) {email = value;},
           ),
           RoundedInput(
             hintText: 'Contraseña',
             obText: true,
             icon: Icons.lock,
-            onChanged: (value) {},
+            onChanged: (value) {password = value;},
           ),
           SizedBox(height: size.height * 0.06),
           RoundedButton(
             text: 'Ingresar',
-            press: () {},
+            press: () async {
+              print(email);
+              print(password);
+              dynamic result = await _authController.signInWithEmailAndPassword(email: email, password: password);
+              print(result);
+              },
             pd: 10,
           ),
           ForgPassw(
@@ -66,14 +74,14 @@ class Body extends StatelessWidget {
               SocialIcon(
                 asst: 'assets/icons/facebook.svg',
                 press: () {
-                  signInWithFacebook();
+                  // signInWithFacebook();
                   print('object');
                 },
               ),
               SocialIcon(
                 asst: 'assets/icons/google.svg',
                 press: () {
-                  signInWithGoogle();
+                  _authController.signInWithGoogle();
                   print('object');
                 },
               ),
