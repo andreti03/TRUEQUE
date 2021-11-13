@@ -19,13 +19,22 @@ class ItemCardWidget extends StatelessWidget {
       margin: EdgeInsets.only(left: 10, top: 5, bottom: 20),
       child: Column(
         children: <Widget>[
-          Image.asset(
-            imagePath,
+          Container(
             width: 200,
-            //height: 200,
+            height: 120,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fill, image: AssetImage(imagePath)),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              print('prueba tap');
+            },
             child: Container(
               height: 50,
               padding: EdgeInsets.only(top: 0, left: 15),
