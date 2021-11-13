@@ -47,7 +47,7 @@ class Body extends StatelessWidget {
             text: 'Ingresar',
             press: () {
               Navigator.push(
-                context,
+                context, 
                 MaterialPageRoute(
                   builder: (context) {
                     return HomePage();

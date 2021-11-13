@@ -1,130 +1,187 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
-
 import '../../../../constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 
 class Body extends StatefulWidget {
+  static const String route = '/live_location';
   @override
-  State<Body> createState() => _BodyState();
+  _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> with TickerProviderStateMixin {
-  late LatLng _center;
-  late Position currentLocation;
-  late final MapController mapController;
+class _BodyState extends State<Body> {
+  LocationData? _currentLocation;
+  late final MapController _mapController;
+
+  bool _liveUpdate = true;
+  bool _permission = false;
+
+  // ignore: unused_field
+  String? _serviceError = '';
+
+  var interActiveFlags = InteractiveFlag.all & ~InteractiveFlag.rotate;
+
+  final Location _locationService = Location();
 
   @override
   void initState() {
     super.initState();
-    mapController = MapController();
-    getUserLocation();
+    initLocationService();
+    _mapController = MapController();
   }
 
-  Future<Position> locateUser() async {
-    return Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
+  void initLocationService() async {
+    await _locationService.changeSettings(
+      accuracy: LocationAccuracy.high,
+      interval: 1000,
+    );
 
-  void getUserLocation() async {
-    currentLocation = await locateUser();
+    LocationData? location;
+    bool serviceEnabled;
+    bool serviceRequestResult;
 
-    setState(() {
-      _center = LatLng(currentLocation.latitude, currentLocation.longitude);
-    });
-    print('center $_center');
-  }
+    try {
+      serviceEnabled = await _locationService.serviceEnabled();
 
-  // ignore: unused_element
-  void _animatedMapMove(LatLng destLocation, double destZoom) {
-    // Create some tweens. These serve to split up the transition from one location to another.
-    // In our case, we want to split the transition be<tween> our current map center and the destination.
-    final _latTween = Tween<double>(
-        begin: mapController.center.latitude, end: destLocation.latitude);
-    final _lngTween = Tween<double>(
-        begin: mapController.center.longitude, end: destLocation.longitude);
-    final _zoomTween = Tween<double>(begin: mapController.zoom, end: destZoom);
+      if (serviceEnabled) {
+        var permission = await _locationService.requestPermission();
+        _permission = permission == PermissionStatus.granted;
 
-    // Create a animation controller that has a duration and a TickerProvider.
-    var controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
-    // The animation determines what path the animation will take. You can try different Curves values, although I found
-    // fastOutSlowIn to be my favorite.
-    Animation<double> animation =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+        if (_permission) {
+          location = await _locationService.getLocation();
+          _currentLocation = location;
+          _locationService.onLocationChanged
+              .listen((LocationData result) async {
+            if (mounted) {
+              setState(() {
+                _currentLocation = result;
 
-    controller.addListener(() {
-      mapController.move(
-          LatLng(_latTween.evaluate(animation), _lngTween.evaluate(animation)),
-          _zoomTween.evaluate(animation));
-    });
-
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.dispose();
-      } else if (status == AnimationStatus.dismissed) {
-        controller.dispose();
+                // If Live Update is enabled, move map center
+                if (_liveUpdate) {
+                  _mapController.move(
+                      LatLng(_currentLocation!.latitude!,
+                          _currentLocation!.longitude!),
+                      _mapController.zoom);
+                }
+              });
+            }
+          });
+        }
+      } else {
+        serviceRequestResult = await _locationService.requestService();
+        if (serviceRequestResult) {
+          initLocationService();
+          return;
+        }
       }
-    });
-
-    controller.forward();
+    } on PlatformException catch (e) {
+      print(e);
+      if (e.code == 'PERMISSION_DENIED') {
+        _serviceError = e.message;
+      } else if (e.code == 'SERVICE_STATUS_ERROR') {
+        _serviceError = e.message;
+      }
+      location = null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    LatLng currentLatLng;
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: FlutterMap(
-        options: MapOptions(
-          center: _center,
-          zoom: 18.0,
-          interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-          maxZoom: 18.0,
-          minZoom: 10.0,
-          onMapCreated: (MapController controller) {
-            getUserLocation();
-          },
+
+    if (_currentLocation != null) {
+      currentLatLng =
+          LatLng(_currentLocation!.latitude!, _currentLocation!.longitude!);
+    } else {
+      currentLatLng = LatLng(0, 0);
+    }
+
+    var markers = <Marker>[
+      Marker(
+        width: size.width * 0.1,
+        height: size.height * 0.1,
+        point: currentLatLng,
+        builder: (ctx) => Container(
+          child: Icon(
+            Icons.location_on,
+            color: kPrimaryDarkColor,
+          ),
         ),
-        layers: [
-          TileLayerOptions(
-            urlTemplate:
-                "https://api.mapbox.com/styles/v1/julianancastro/ckvorolv470re14mwneuzko7w/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoianVsaWFuYW5jYXN0cm8iLCJhIjoiY2t2bjFpY2hiMzZ0cjJ2bWwyZjVjNjlreSJ9.tpZZFaLLVtDxw94X6vKfGg",
-            additionalOptions: {
-              'accessToken':
-                  'pk.eyJ1IjoianVsaWFuYW5jYXN0cm8iLCJhIjoiY2t2bjFpY2hiMzZ0cjJ2bWwyZjVjNjlreSJ9.tpZZFaLLVtDxw94X6vKfGg',
-              'id': 'mapbox.mapbox-streets-v8'
-            },
-          ),
-          MarkerLayerOptions(
-            markers: [
-              Marker(
-                width: size.width * 0.1,
-                height: size.height * 0.1,
-                point: _center,
-                builder: (ctx) => Container(
-                  child: Icon(
-                    Icons.location_on,
-                    color: kPrimaryDarkColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            child: Icon(Icons.location_on),
-            onPressed: () {
-              getUserLocation();
-              mapController.move(_center, 18.0);
-            },
+    ];
+
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(0),
+        child: Column(
+          children: [
+            Flexible(
+              child: FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  center:
+                      LatLng(currentLatLng.latitude, currentLatLng.longitude),
+                  zoom: 18.0,
+                  maxZoom: 18.0,
+                  minZoom: 10.0,
+                  interactiveFlags: interActiveFlags,
+                  onMapCreated: (MapController controller) {
+                    initLocationService();
+                  },
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate:
+                        "https://api.mapbox.com/styles/v1/julianancastro/ckvorolv470re14mwneuzko7w/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoianVsaWFuYW5jYXN0cm8iLCJhIjoiY2t2bjFpY2hiMzZ0cjJ2bWwyZjVjNjlreSJ9.tpZZFaLLVtDxw94X6vKfGg",
+                    additionalOptions: {
+                      'accessToken':
+                          'pk.eyJ1IjoianVsaWFuYW5jYXN0cm8iLCJhIjoiY2t2bjFpY2hiMzZ0cjJ2bWwyZjVjNjlreSJ9.tpZZFaLLVtDxw94X6vKfGg',
+                      'id': 'mapbox.mapbox-streets-v8'
+                    },
+                  ),
+                  MarkerLayerOptions(markers: markers)
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Builder(
+        builder: (BuildContext context) {
+          return FloatingActionButton(
             backgroundColor: kPrimaryColor,
-          )
-        ],
+            onPressed: () {
+              setState(
+                () {
+                  _liveUpdate = !_liveUpdate;
+
+                  if (_liveUpdate) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            'En live la camara se centrará en tu ubicación'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Live desactivado'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+            child: _liveUpdate
+                ? Icon(Icons.location_on)
+                : Icon(Icons.location_off),
+          );
+        },
       ),
     );
   }
