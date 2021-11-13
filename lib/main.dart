@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Screens/Welcome/welcome_screen.dart';
 import 'package:trueque/constants.dart';
 import 'package:get/get.dart';
 
 void main() {
+  Get.lazyPut<Controller>(() => Controller());
   runApp(MyApp());
 }
 
