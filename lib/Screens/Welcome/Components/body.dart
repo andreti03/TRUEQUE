@@ -3,6 +3,7 @@ import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Screens/Login/login_screen.dart';
 import 'package:trueque/Screens/Singup/singup_screen.dart';
 import 'package:trueque/Screens/Welcome/Components/background.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -10,7 +11,6 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -32,28 +32,14 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: 'Ingresar',
               press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ),
-                );
+                Get.to(() => LoginScreen());
               },
               pd: 10,
             ),
             RoundedButton(
               text: 'Registrarse',
               press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SingupScreen();
-                    },
-                  ),
-                );
+                Get.to(() => SingupScreen());
               },
               pd: 10,
             ),

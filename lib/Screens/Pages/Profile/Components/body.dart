@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:trueque/Screens/Pages/Profile/ProfileMenu/help.dart';
+import 'package:trueque/Screens/Pages/Profile/ProfileMenu/my_profile.dart';
+import 'package:trueque/Screens/Pages/Profile/ProfileMenu/notifications.dart';
+import 'package:trueque/Screens/Pages/Profile/ProfileMenu/settings.dart';
+import 'package:trueque/Screens/Welcome/welcome_screen.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -14,28 +20,36 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Ver mi perfil",
             icon: "assets/icons/User Icon.svg",
-            press: () => {},
+            press: () {
+              Get.to(() => MyProfile());
+            },
           ),
           ProfileMenu(
             text: "Mis Notificaciones",
             icon: "assets/icons/Bell.svg",
-            press: () {},
+            press: () {
+              Get.to(() => Notifications());
+            },
           ),
           ProfileMenu(
             text: "Preferencias",
             icon: "assets/icons/Settings.svg",
-            press: () {},
+            press: () {
+              Get.to(() => Settings());
+            },
           ),
           ProfileMenu(
             text: "Ayuda",
             icon: "assets/icons/Question mark.svg",
-            press: () {},
+            press: () {
+              Get.to(() => Help());
+            },
           ),
           ProfileMenu(
             text: "Cerrar Sesion",
             icon: "assets/icons/Log out.svg",
             press: () {
-              Navigator.pop(context);
+              Get.to(() => WelcomeScreen());
             },
           ),
         ],

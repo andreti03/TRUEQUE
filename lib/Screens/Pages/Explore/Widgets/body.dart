@@ -1,6 +1,7 @@
 import 'category_group.dart';
 import 'package:flutter/material.dart';
 import 'package:trueque/Screens/Pages/Explore/Widgets/search_bar.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   get controller => null;
@@ -43,7 +44,9 @@ class Body extends StatelessWidget {
           )
         ],
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
             icon: const Icon(
               Icons.arrow_back_outlined,
               color: Colors.black,

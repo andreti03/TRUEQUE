@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trueque/Screens/Pages/Discover/discover_page.dart';
 import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
-import 'package:trueque/Screens/Pages/Learn/learn_page.dart';
+import 'package:trueque/Screens/Pages/Products/products_page.dart';
 import 'package:trueque/Screens/Pages/Profile/profile_page.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _pages = [
     ExplorePage(),
     DiscoverPage(),
-    LearnPage(),
+    ProductsPage(),
     ProfilePage()
   ];
 
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.location_on_outlined), label: 'Descubrir'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.school_outlined), label: 'Aprender'),
+              icon: Icon(Icons.add_circle_outline), label: 'Productos'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline_sharp), label: 'Perfil')
         ],

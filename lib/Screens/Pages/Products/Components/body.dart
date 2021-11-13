@@ -4,7 +4,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('LearnPage'),
+      child: Text('ProductsPage'),
     );
   }
 }

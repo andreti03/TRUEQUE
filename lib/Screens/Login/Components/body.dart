@@ -9,6 +9,7 @@ import 'package:trueque/Screens/Login/Components/ForgPassw.dart';
 import 'package:trueque/Screens/Login/Components/background.dart';
 import 'package:trueque/Screens/Pages/Home/home_page.dart';
 import 'package:trueque/Screens/Singup/singup_screen.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -46,14 +47,7 @@ class Body extends StatelessWidget {
           RoundedButton(
             text: 'Ingresar',
             press: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (context) {
-                    return HomePage();
-                  },
-                ),
-              );
+              Get.to(() => HomePage());
             },
             pd: 10,
           ),
@@ -94,14 +88,7 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(
             press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SingupScreen();
-                  },
-                ),
-              );
+                Get.to(() => SingupScreen());
             },
           ),
         ],
