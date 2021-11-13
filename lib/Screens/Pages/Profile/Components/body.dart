@@ -34,7 +34,9 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Cerrar Sesion",
             icon: "assets/icons/Log out.svg",
-            press: () {},
+            press: () {
+              Navigator.pop(context);
+            },
           ),
         ],
       ),
