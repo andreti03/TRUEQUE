@@ -3,6 +3,7 @@ import 'package:trueque/Screens/Pages/Profile/Components/body.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

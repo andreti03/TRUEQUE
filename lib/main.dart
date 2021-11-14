@@ -10,7 +10,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final Controller controller = Get.put(Controller());
+  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
