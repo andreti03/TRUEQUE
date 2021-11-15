@@ -1,6 +1,8 @@
 import 'package:trueque/Controllers/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trueque/Screens/Pages/Profile/Components/notification.dart';
+// ignore: unused_import
 import 'package:trueque/constants.dart';
 
 class Notifications extends StatelessWidget {
@@ -55,68 +57,26 @@ class Notifications extends StatelessWidget {
       body: GetX<Controller>(
         init: controller,
         builder: (Controller widCtrl) {
-          return ListView.builder(
-            itemCount: widCtrl.notifications.length,
-            itemBuilder: (context, pos) {
-              return Notification(
-                icon: Icons.notifications,
-                name: widCtrl.notifications[pos],
-              );
-            },
-          );
+          if (widCtrl.notifications.length != 0) {
+            return ListView.builder(
+              itemCount: widCtrl.notifications.length,
+              itemBuilder: (context, pos) {
+                return WdNotif(
+                  icon: Icons.notifications,
+                  name: widCtrl.notifications[pos],
+                  widCtrl: widCtrl,
+                  pos: pos,
+                );
+              },
+            );
+          } else {
+            return Center(
+                child: Text(
+              'No hay notificaciones',
+              style: TextStyle(fontSize: 30),
+            ));
+          }
         },
-      ),
-    );
-  }
-}
-
-class Notification extends StatelessWidget {
-  final IconData icon;
-  final String name;
-
-  const Notification({Key? key, required this.icon, required this.name})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-              height: 70,
-              width: 100,
-              child: Icon(
-                icon,
-                color: kPrimaryLigthColor,
-              )),
-          Container(
-            padding: EdgeInsets.all(5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    name,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                SizedBox(width: 60),
-                TextButton(
-                  child: Icon(
-                    Icons.close,
-                    color: kPrimaryLigthColor,
-                  ),
-                  onPressed: () {
-                    print(name);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trueque/constants.dart';
 
 class Product extends StatelessWidget {
   final String imagePath;
@@ -9,13 +10,14 @@ class Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Card(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 100,
-            width: 130,
+            height: size.height * 0.13,
+            width: size.width * 0.33,
             child: Container(
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -34,7 +36,7 @@ class Product extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 8),
+                  padding: EdgeInsets.only(left: size.height * 0.01),
                   child: Text(
                     name,
                     style: TextStyle(fontSize: 20),
@@ -43,16 +45,22 @@ class Product extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     TextButton(
-                      child: const Text('Volver a comprar'),
+                      child: const Text(
+                        'Actualizar',
+                        style: TextStyle(color: kPrimaryLigthColor),
+                      ),
                       onPressed: () {
-                        print(name);
+                        print(size.height);
                       },
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: size.height * 0.01),
                     TextButton(
-                      child: const Text('Buscar Similar'),
+                      child: const Text(
+                        'Buscar Similar',
+                        style: TextStyle(color: kPrimaryLigthColor),
+                      ),
                       onPressed: () {
-                        print(name);
+                        print(size.width);
                       },
                     ),
                   ],

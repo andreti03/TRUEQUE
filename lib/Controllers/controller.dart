@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
@@ -8,9 +8,17 @@ class Controller extends GetxController {
     ['Papa pastusa', 'assets/images/papa.png'],
     ['Maracuya', 'assets/images/maracuya.png']
   ].obs;
-  var _notifications = ['Tengo Hambre', 'Compro uvas'].obs;
+  var _notifications = [
+    'Compro Papa',
+    'Compro uvas',
+    'Compro Papa',
+    'Compro uvas',
+    'Compro Papa',
+    'Compro uvas',
+    'Compro Papa',
+    'Compro uvas'
+  ].obs;
   var _isLog = false.obs;
-  final nameController = TextEditingController();
 
   String get name => _name.value;
   String get imagePath => _imagePath.value;
@@ -44,5 +52,11 @@ class Controller extends GetxController {
           Duration(seconds: 1), () => print('User account created'));
       return true;
     };
+  }
+
+  void deleteNot(int val) {
+    _notifications.removeAt(val);
+    update();
+    print('New name: $val y $_notifications');
   }
 }
