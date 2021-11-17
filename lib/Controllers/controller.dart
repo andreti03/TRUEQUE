@@ -70,6 +70,7 @@ class Controller extends GetxController {
       _surname.value = data?['surname'];
       _cedula.value = data?['id_number'];
       _cellphone.value = data?['phone'];
+      _email.value = data?['email'];
       _imagePath.value = data?['image_path'];
     }
   }
