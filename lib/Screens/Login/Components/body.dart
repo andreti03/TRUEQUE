@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
@@ -19,6 +21,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final AuthenticationController _authController = AuthenticationController();
+    String email = '';
+    String password = '';
     return Background(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -35,20 +40,23 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.1),
           RoundedInput(
             hintText: 'Email',
-            onChanged: (value) {},
+            onChanged: (value) {email = value;},
           ),
           RoundedInput(
             hintText: 'Contraseña',
             obText: true,
             icon: Icons.lock,
-            onChanged: (value) {},
+            onChanged: (value) {password = value;},
           ),
           SizedBox(height: size.height * 0.06),
           RoundedButton(
             text: 'Ingresar',
-            press: () {
-              Get.to(() => HomePage());
-            },
+            press: () async {
+              dynamic result = await _authController.signInWithEmailAndPassword(email: email, password: password);
+              if (result == 'Inicio exitoso.'){
+                Get.off(()=>HomePage());
+              }
+              },
             pd: 10,
           ),
           ForgPassw(
@@ -68,13 +76,18 @@ class Body extends StatelessWidget {
               SocialIcon(
                 asst: 'assets/icons/facebook.svg',
                 press: () {
+                  // signInWithFacebook();
                   print('object');
                 },
               ),
               SocialIcon(
                 asst: 'assets/icons/google.svg',
-                press: () {
-                  print('object');
+                press: () async {
+                  var user = await _authController.signInWithGoogle();
+                  print(user);
+                  if (user != ''){
+                    Get.off(()=>HomePage());
+                  }
                 },
               ),
               SocialIcon(
@@ -88,7 +101,7 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(
             press: () {
-                Get.to(() => SingupScreen());
+                Get.off(() => SingupScreen());
             },
           ),
         ],

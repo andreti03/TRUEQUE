@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
@@ -17,6 +19,11 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final AuthenticationController _authController = AuthenticationController();
+    String email = '';
+    String password = '';
+    String name = '';
+    String surname = '';
     return Background(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -30,24 +37,41 @@ class Body extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: size.height * 0.1),
+          SizedBox(height: size.height * 0.05),
+          RoundedInput(
+            hintText: 'Nombre',
+            onChanged: (value) {name = value;},
+          ),
+          RoundedInput(
+            hintText: 'Apellido',
+            onChanged: (value) {surname = value;},
+          ),
           RoundedInput(
             hintText: 'Email',
-            onChanged: (value) {},
+            onChanged: (value) {email = value;},
+            icon: Icons.email,
           ),
+          // Obx(()=>Text(_authController.error, style: TextStyle(
+          //     fontSize: 10.0,
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.red,)
+          //   ),),
           RoundedInput(
             hintText: 'Contraseña',
             obText: true,
             icon: Icons.lock,
-            onChanged: (value) {},
+            onChanged: (value) {password = value;},
           ),
-          SizedBox(height: size.height * 0.06),
+          SizedBox(height: size.height * 0.04),
           RoundedButton(
             text: 'Registrar',
-            press: () {},
+            press: () async {
+              dynamic result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name, surname:surname);
+              // print(result);
+              },
             pd: 10,
           ),
-          SizedBox(height: size.height * 0.20),
+          SizedBox(height: size.height * 0.11),
           Text(
             'Continuar con',
             style: TextStyle(color: Colors.grey),
@@ -79,7 +103,7 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(
             press: () {
-              Get.to(() => LoginScreen());
+              Get.off(() => LoginScreen());
             },
             login: false,
           )
