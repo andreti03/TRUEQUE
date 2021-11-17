@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trueque/Controllers/controller.dart';
+import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Screens/Pages/Profile/ProfileMenu/help.dart';
 import 'package:trueque/Screens/Pages/Profile/ProfileMenu/my_profile.dart';
 import 'package:trueque/Screens/Pages/Profile/ProfileMenu/notifications.dart';
@@ -11,6 +13,7 @@ import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   final Controller controller = Get.put(Controller());
+  final AuthenticationController authController = Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,8 @@ class Body extends StatelessWidget {
               ProfileMenu(
                 text: "Cerrar Sesion",
                 icon: "assets/icons/Log out.svg",
-                press: () {
+                press: () async {
+                  authController.signOut();
                   Get.to(() => WelcomeScreen());
                 },
               ),
