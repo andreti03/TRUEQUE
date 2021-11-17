@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trueque/Controllers/AuthenticationController.dart';
@@ -9,12 +8,16 @@ import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:trueque/Elements/SocialIcon.dart';
 import 'package:trueque/Screens/Login/login_screen.dart';
 import 'package:trueque/Screens/Singup/Components/background.dart';
-import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
-  const Body({
+  Body({
     Key? key,
   }) : super(key: key);
+
+  final nameController = TextEditingController();
+  final surnameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,6 @@ class Body extends StatelessWidget {
     String email = '';
     String password = '';
     String name = '';
-    String surname = '';
     return Background(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -39,14 +41,12 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: size.height * 0.05),
           RoundedInput(
-            hintText: 'Nombre',
+            textController: nameController,
+            hintText: 'Nombre Completo',
             onChanged: (value) {name = value;},
           ),
           RoundedInput(
-            hintText: 'Apellido',
-            onChanged: (value) {surname = value;},
-          ),
-          RoundedInput(
+            textController: emailController,
             hintText: 'Email',
             onChanged: (value) {email = value;},
             icon: Icons.email,
@@ -57,6 +57,7 @@ class Body extends StatelessWidget {
           //     color: Colors.red,)
           //   ),),
           RoundedInput(
+            textController: passController,
             hintText: 'Contraseña',
             obText: true,
             icon: Icons.lock,
@@ -66,12 +67,12 @@ class Body extends StatelessWidget {
           RoundedButton(
             text: 'Registrar',
             press: () async {
-              dynamic result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name, surname:surname);
+              dynamic result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name);
               // print(result);
               },
             pd: 10,
           ),
-          SizedBox(height: size.height * 0.11),
+          SizedBox(height: size.height * 0.19),
           Text(
             'Continuar con',
             style: TextStyle(color: Colors.grey),

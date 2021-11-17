@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Controllers/AuthenticationController.dart';
@@ -22,7 +21,8 @@ class Body extends StatelessWidget {
       child: GetX<Controller>(
         init: controller,
         builder: (Controller widCtrl) {
-          return Column(
+           print(widCtrl.imagePath);
+          return Obx(()=> Column(
             children: [
               ProfilePic(imagePath: widCtrl.imagePath),
               SizedBox(height: 20),
@@ -63,7 +63,7 @@ class Body extends StatelessWidget {
                 },
               ),
             ],
-          );
+          ));
         },
       ),
     );

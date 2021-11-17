@@ -48,18 +48,12 @@ class _EditProfilePageState extends State<MyProfile> {
             physics: BouncingScrollPhysics(),
             children: [
               const SizedBox(height: 15),
-              ProfileWidget(imagePath: image, onClicked: () async {}),
+              ProfileWidget(imagePath: image, onClicked: () async {controller.handleChooseImageFromGallery();}),
               const SizedBox(height: 30),
               TextFieldWidget(
                 label: 'Name',
                 text: widCtrl.name,
                 onChanged: (name) {widCtrl.usernameChanged(name);},
-              ),
-              const SizedBox(height: 20),
-              TextFieldWidget(
-                label: 'Surname',
-                text: widCtrl.surname,
-                onChanged: (surname) {},
               ),
               const SizedBox(height: 20),
               TextFieldWidget(

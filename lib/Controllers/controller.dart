@@ -1,22 +1,28 @@
 //import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Controller extends GetxController {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  var storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   
   var _name = ''.obs;
-  var _surname = ''.obs;
   var _cedula = ''.obs;
   var _email = ''.obs;
   var _cellphone = ''.obs;
   var _date = DateFormat('yyyy-MM-dd').obs;
   var _gender= true.obs;
-  var _imagePath = 'assets/images/Profile_Image.png'.obs;
+  var _file = File('').obs;
+  var _imagePath = ''.obs;
   var _listProducts = [
     [
       'Papa pastusa',
@@ -48,12 +54,12 @@ class Controller extends GetxController {
   List<List> get listProducts => [..._listProducts];
   List<String> get notifications => [..._notifications];
   bool get isLog => _isLog.value;
-  String get surname => _surname.value;
   String get cedula => _cedula.value;
   String get email => _email.value;
   String get cellphone => _cellphone.value;
   DateFormat get date => _date.value;
   bool get gender => _gender.value;
+  File get file => _file.value;
 
   String? validator(String value) {
     if (value.isEmpty) {
@@ -62,12 +68,32 @@ class Controller extends GetxController {
     return null;
   }
 
+  void handleChooseImageFromGallery() async {
+  try{
+    XFile? newFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    _file.value = File(newFile!.path);
+    var uid = _auth.currentUser?.uid;
+    var uploadTask = await storage
+                      .ref("Profile/$uid")
+                      .putFile(_file.value);
+    var dowurl = await uploadTask.ref.getDownloadURL();
+    _imagePath.value = dowurl.toString();   
+    await users.doc(_auth.currentUser!.uid).set(
+        {'image_path': _imagePath.value},
+        SetOptions(merge: true)).then((_){
+        print("success!");}
+      );
+
+  }catch(e){
+    print('Error');
+  }
+  }
+
   Future<void> updateInformationRegister() async {
     var doc = await users.doc(_auth.currentUser!.uid).get();
     if (doc.exists){
       Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
       _name.value = data?['name'];
-      _surname.value = data?['surname'];
       _cedula.value = data?['id_number'];
       _cellphone.value = data?['phone'];
       _email.value = data?['email'];
@@ -83,16 +109,6 @@ class Controller extends GetxController {
     });
     update();
     print('New name: $_cedula');
-  }
-
-  void surnameChanged(String val) {
-    var doc = users.doc(_auth.currentUser!.uid);
-    _surname.value = val;
-    doc.update({
-      'surname': _surname.value
-    });
-    update();
-    print('New name: $_surname');
   }
 
   void usernameChanged(String val) {

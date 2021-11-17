@@ -20,7 +20,7 @@ class ProfileWidget extends StatelessWidget {
           buildImage(),
           Positioned(
             bottom: 0,
-            right: 4,
+            right: -20,
             child: buildEditIcon(color),
           ),
         ],
@@ -37,25 +37,24 @@ class ProfileWidget extends StatelessWidget {
           fit: BoxFit.cover,
           width: 128,
           height: 128,
-          child: InkWell(onTap: onClicked),
+          // child: InkWell(onTap: onClicked),
         ),
       ),
     );
   }
 
-  Widget buildEditIcon(Color color) => buildCircle(
-        color: Colors.white,
-        all: 3,
-        child: buildCircle(
-          color: color,
-          all: 8,
-          child: Icon(
-            Icons.edit,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-      );
+  Widget buildEditIcon(Color color) => RawMaterialButton(
+  onPressed: onClicked,
+  fillColor: color,
+  elevation: 0,
+  child: Icon(
+    Icons.edit,
+    size: 20.0,
+    color: Colors.white,
+  ),
+  padding: EdgeInsets.all(10.0),
+  shape: CircleBorder(side:BorderSide(color: Colors.white)),
+);
 
   Widget buildCircle({
     required Widget child,

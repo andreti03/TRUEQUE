@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RoundedInput extends StatelessWidget {
+  TextEditingController textController = TextEditingController();
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
   final bool obText;
 
-  const RoundedInput({
+  RoundedInput({
     Key? key,
+    required this.textController,
     required this.hintText,
     this.icon = Icons.person,
     required this.onChanged,
@@ -19,6 +21,7 @@ class RoundedInput extends StatelessWidget {
     return TextContainer(
       child: TextField(
         obscureText: obText,
+        controller: textController,
         onChanged: onChanged,
         decoration: InputDecoration(
           icon: Icon(

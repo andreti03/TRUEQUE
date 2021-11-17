@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:trueque/Controllers/controller.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:twitter_login/entity/auth_result.dart';
 // import 'package:twitter_login/twitter_login.dart';
@@ -9,10 +13,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationController extends GetxController{
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  var storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
   final _error = ''.obs;
+  final Controller controller = Get.put(Controller());
 
   String get error => _error.value;
 
@@ -41,12 +47,11 @@ class AuthenticationController extends GetxController{
   //   _auth.currentUser?.updateEmail(newEmail);
   // }
 
-  Future signUpWithEmailAndPassword({required String email, required String password, required String name, required String surname}) async{
+  Future signUpWithEmailAndPassword({required String email, required String password, required String name}) async{
     try{
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       await users.doc(_auth.currentUser!.uid).set(
         {'name': name, 
-        'surname': surname, 
         'email': email, 
         'id_number': '', 
         'phone': '', 
@@ -57,6 +62,20 @@ class AuthenticationController extends GetxController{
         SetOptions(merge: true)).then((_){
         print("success!");}
       );
+      var doc = await users.doc(_auth.currentUser!.uid).get();
+      if (doc.exists){
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+        var uploadTask = storage
+                    .ref("Profile/avatar-png-green.png");
+        var dowurl = await uploadTask.getDownloadURL();
+        var imagePath = dowurl.toString();   
+        await users.doc(_auth.currentUser!.uid).set(
+            {'image_path': imagePath,
+            'new': false},
+            SetOptions(merge: true)).then((_){
+            print("success!");}
+        );
+      }
     }on FirebaseAuthException catch(e){
         if (e.code == 'invalid-email'){
           _error.value = 'Ingrese un correo válido.';
@@ -74,11 +93,8 @@ class AuthenticationController extends GetxController{
     idToken: googleAuth?.idToken,
     );
     UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
-    print('aqui');
-    print(userCred.user?.photoURL);
     await users.doc(_auth.currentUser!.uid).set(
       {'name': userCred.user?.displayName, 
-      'surname':'', 
       'email': userCred.user?.email, 
       'id_number': '', 
       'phone': '', 
@@ -90,6 +106,7 @@ class AuthenticationController extends GetxController{
       print("success!");}
     );
     Map<String, String?> userInfo = {'displayName':userCred.user?.displayName, 'email':userCred.user?.email};
+    // controller.changeImagePath(userCred.user?.photoURL);
     return userInfo.toString();
   }catch(e){
     return '';

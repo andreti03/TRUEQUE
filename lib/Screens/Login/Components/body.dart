@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
@@ -14,9 +13,11 @@ import 'package:trueque/Screens/Singup/singup_screen.dart';
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
-  const Body({
+  Body({
     Key? key,
   }) : super(key: key);
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,12 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: size.height * 0.1),
           RoundedInput(
+            textController: emailController,
             hintText: 'Email',
             onChanged: (value) {email = value;},
           ),
           RoundedInput(
+            textController: passController,
             hintText: 'Contraseña',
             obText: true,
             icon: Icons.lock,
