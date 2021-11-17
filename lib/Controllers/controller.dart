@@ -3,7 +3,13 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 
 class Controller extends GetxController {
-  var _name = 'Pepito Perez'.obs;
+  var _name = 'Carlos Sebastian'.obs;
+  var _surname = 'Martinez Vidal'.obs;
+  var _cedula = 1006108401.obs;
+  var _email = 'sebastianmartinezvidal@gmail.com'.obs;
+  var _cellphone = 3016264162.obs;
+  var _date = DateTime(2000, 05, 26).obs;
+  var _gender= true.obs;
   var _imagePath = 'assets/images/Profile_Image.png'.obs;
   var _listProducts = [
     [
@@ -36,6 +42,12 @@ class Controller extends GetxController {
   List<List> get listProducts => [..._listProducts];
   List<String> get notifications => [..._notifications];
   bool get isLog => _isLog.value;
+  String get surname => _surname.value;
+  int get cedula => _cedula.value;
+  String get email => _email.value;
+  int get cellphone => _cellphone.value;
+  DateTime get date => _date.value;
+  bool get gender => _gender.value;
 
   String? validator(String value) {
     if (value.isEmpty) {
