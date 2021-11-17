@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Screens/Pages/Discover/discover_page.dart';
 import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
 import 'package:trueque/Screens/Pages/Products/products_page.dart';
@@ -21,6 +23,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final Controller controller = Get.put(Controller());
+    controller.updateInformationRegister();
     return Scaffold(
       body: _pages[_currentPage],
       bottomNavigationBar: BottomNavigationBar(

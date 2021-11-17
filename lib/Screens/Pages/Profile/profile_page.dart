@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
+import 'package:trueque/Screens/Pages/Home/home_page.dart';
 import 'package:trueque/Screens/Pages/Profile/Components/body.dart';
 import 'package:get/get.dart';
 
@@ -15,15 +17,6 @@ class ProfilePage extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(
-            Icons.arrow_back_outlined,
-            color: Colors.black,
-          ),
-        ),
       ),
       body: Body(),
     );

@@ -1,13 +1,19 @@
 //import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Controller extends GetxController {
-  var _name = 'Carlos Sebastian'.obs;
-  var _surname = 'Martinez Vidal'.obs;
-  var _cedula = 1006108401.obs;
-  var _email = 'sebastianmartinezvidal@gmail.com'.obs;
-  var _cellphone = 3016264162.obs;
-  var _date = DateTime(2000, 05, 26).obs;
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  var _name = ''.obs;
+  var _surname = ''.obs;
+  var _cedula = ''.obs;
+  var _email = ''.obs;
+  var _cellphone = ''.obs;
+  var _date = DateFormat('yyyy-MM-dd').obs;
   var _gender= true.obs;
   var _imagePath = 'assets/images/Profile_Image.png'.obs;
   var _listProducts = [
@@ -32,10 +38,10 @@ class Controller extends GetxController {
   List<String> get notifications => [..._notifications];
   bool get isLog => _isLog.value;
   String get surname => _surname.value;
-  int get cedula => _cedula.value;
+  String get cedula => _cedula.value;
   String get email => _email.value;
-  int get cellphone => _cellphone.value;
-  DateTime get date => _date.value;
+  String get cellphone => _cellphone.value;
+  DateFormat get date => _date.value;
   bool get gender => _gender.value;
 
   String? validator(String value) {
@@ -45,14 +51,55 @@ class Controller extends GetxController {
     return null;
   }
 
+  Future<void> updateInformationRegister() async {
+    var doc = await users.doc(_auth.currentUser!.uid).get();
+    if (doc.exists){
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      _name.value = data?['name'];
+      _surname.value = data?['surname'];
+      _cedula.value = data?['id_number'];
+      _cellphone.value = data?['phone'];
+      _imagePath.value = data?['image_path'];
+    }
+  }
+
+  void idNumberChanged(String val) {
+    var doc = users.doc(_auth.currentUser!.uid);
+    _cedula.value = val;
+    doc.update({
+      'id_number': _cedula.value
+    });
+    update();
+    print('New name: $_cedula');
+  }
+
+  void surnameChanged(String val) {
+    var doc = users.doc(_auth.currentUser!.uid);
+    _surname.value = val;
+    doc.update({
+      'surname': _surname.value
+    });
+    update();
+    print('New name: $_surname');
+  }
+
   void usernameChanged(String val) {
+    var doc = users.doc(_auth.currentUser!.uid);
     _name.value = val;
+    doc.update({
+      'name': _name.value
+    });
     update();
     print('New name: $_name');
   }
 
   void imgProfileChanged(String val) {
-    _imagePath.value = 'assets/images/' + val + '.png';
+    var doc = users.doc(_auth.currentUser!.uid);
+    _imagePath.value = val;
+    doc.update({
+      'image_path': _imagePath.value
+    });
+    // _imagePath.value = 'assets/images/' + val + '.png';
     update();
     print('New Image: $_imagePath');
   }

@@ -1,3 +1,5 @@
+import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
+import 'package:trueque/Screens/Pages/Home/home_page.dart';
 import 'package:trueque/Screens/Pages/Products/Components/product.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +45,6 @@ class Body extends StatelessWidget {
             width: 20,
           )
         ],
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back_outlined,
-              color: Colors.black,
-            )),
       ),
       body: GetX<Controller>(
         init: controller,

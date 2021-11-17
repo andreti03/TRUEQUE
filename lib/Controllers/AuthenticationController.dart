@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,12 +8,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 
 class AuthenticationController extends GetxController{
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var _googleSignIn = GoogleSignIn();
   var googleAccount = Rx<GoogleSignInAccount?>(null);
   final _error = ''.obs;
 
   String get error => _error.value;
+
   // User? get currentUser => _auth.currentUser;
 
   Future<String?> signInWithEmailAndPassword({required String email, required String password}) async{
@@ -33,9 +36,27 @@ class AuthenticationController extends GetxController{
     }
   }
 
-  Future signUpWithEmailAndPassword({required String email, required String password}) async{
+  // Future<void> updateEmail({required String newEmail}){
+  //   var credential = EmailAuthProvider.credential(email: _auth.currentUser!.email, password: password);
+  //   _auth.currentUser?.updateEmail(newEmail);
+  // }
+
+  Future signUpWithEmailAndPassword({required String email, required String password, required String name, required String surname}) async{
     try{
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await users.doc(_auth.currentUser!.uid).set(
+        {'name': name, 
+        'surname': surname, 
+        'email': email, 
+        'id_number': '', 
+        'phone': '', 
+        'birth': '',
+        'image_path': '',
+        'date' : '',
+        'gender' : ''},
+        SetOptions(merge: true)).then((_){
+        print("success!");}
+      );
     }on FirebaseAuthException catch(e){
         if (e.code == 'invalid-email'){
           _error.value = 'Ingrese un correo válido.';
@@ -44,21 +65,42 @@ class AuthenticationController extends GetxController{
       }
     }
 
-  Future<UserCredential> signInWithGoogle() async{
-   final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-   final credential = GoogleAuthProvider.credential(
+  Future<String> signInWithGoogle() async{
+  try{
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final credential = GoogleAuthProvider.credential(
     accessToken: googleAuth?.accessToken,
     idToken: googleAuth?.idToken,
-  );
-  UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
-  print(userCred);
-  return userCred;
-
-//   print(userCred);
+    );
+    UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
+    print('aqui');
+    print(userCred.user?.photoURL);
+    await users.doc(_auth.currentUser!.uid).set(
+      {'name': userCred.user?.displayName, 
+      'surname':'', 
+      'email': userCred.user?.email, 
+      'id_number': '', 
+      'phone': '', 
+      'birth': '',
+      'date': '', 
+      'gender' : '',
+      'image_path': userCred.user?.photoURL},
+      SetOptions(merge: true)).then((_){
+      print("success!");}
+    );
+    Map<String, String?> userInfo = {'displayName':userCred.user?.displayName, 'email':userCred.user?.email};
+    return userInfo.toString();
+  }catch(e){
+    return '';
   }
  }
+
+ Future<void> signOut() async {
+  await _auth.signOut();
+  await _googleSignIn.signOut();
+}
+}
 
 
 // Future<String?> signUp(

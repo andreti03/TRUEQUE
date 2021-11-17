@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:trueque/Domain/Authentication/sign_in.dart';
+import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
@@ -52,10 +52,10 @@ class Body extends StatelessWidget {
           RoundedButton(
             text: 'Ingresar',
             press: () async {
-              print(email);
-              print(password);
               dynamic result = await _authController.signInWithEmailAndPassword(email: email, password: password);
-              print(result);
+              if (result == 'Inicio exitoso.'){
+                Get.off(()=>HomePage());
+              }
               },
             pd: 10,
           ),
@@ -82,9 +82,12 @@ class Body extends StatelessWidget {
               ),
               SocialIcon(
                 asst: 'assets/icons/google.svg',
-                press: () {
-                  _authController.signInWithGoogle();
-                  print('object');
+                press: () async {
+                  var user = await _authController.signInWithGoogle();
+                  print(user);
+                  if (user != ''){
+                    Get.off(()=>HomePage());
+                  }
                 },
               ),
               SocialIcon(
@@ -98,7 +101,7 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(
             press: () {
-                Get.to(() => SingupScreen());
+                Get.off(() => SingupScreen());
             },
           ),
         ],

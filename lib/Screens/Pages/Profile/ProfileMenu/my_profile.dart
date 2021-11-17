@@ -11,13 +11,17 @@ class MyProfile extends StatefulWidget {
 class _EditProfilePageState extends State<MyProfile> {
   final Controller controller = Get.put(Controller());
 
+
   @override
   Widget build(BuildContext context) {
-    String fecha =
-        "${controller.date.year.toString()}/${controller.date.month.toString().padLeft(2, '0')}/${controller.date.day.toString().padLeft(2, '0')}";
+    controller.updateInformationRegister();
+
+    // String fecha =
+        // "${controller.date.year.toString()}/${controller.date.month.toString().padLeft(2, '0')}/${controller.date.day.toString().padLeft(2, '0')}";
     //Size size = MediaQuery.of(context).size;
-    var imageasset = new AssetImage(controller.imagePath);
-    var image = new Image(image: imageasset, fit: BoxFit.cover);
+    // var imageasset = new AssetImage(controller.imagePath);
+    // var image = new Image(image: imageasset, fit: BoxFit.cover);
+    var image = Image.network(controller.imagePath, fit: BoxFit.cover,);
     return GetX<Controller>(
       init: controller,
       builder: (Controller widCtrl) {
@@ -49,7 +53,7 @@ class _EditProfilePageState extends State<MyProfile> {
               TextFieldWidget(
                 label: 'Name',
                 text: widCtrl.name,
-                onChanged: (name) {},
+                onChanged: (name) {widCtrl.usernameChanged(name);},
               ),
               const SizedBox(height: 20),
               TextFieldWidget(
@@ -60,7 +64,7 @@ class _EditProfilePageState extends State<MyProfile> {
               const SizedBox(height: 20),
               TextFieldWidget(
                 label: 'ID number',
-                text: '${widCtrl.cedula}',
+                text: widCtrl.cedula,
                 // ignore: non_constant_identifier_names
                 onChanged: (cedula) {},
               ),
@@ -73,13 +77,13 @@ class _EditProfilePageState extends State<MyProfile> {
               const SizedBox(height: 20),
               TextFieldWidget(
                 label: 'Mobile phone',
-                text: '${widCtrl.cellphone}',
+                text: widCtrl.cellphone,
                 onChanged: (cellphone) {},
               ),
               const SizedBox(height: 20),
               TextFieldWidget(
                 label: 'Date of birth',
-                text: fecha,
+                text: '',//fecha,
                 onChanged: (date) {},
               ),
             ],
