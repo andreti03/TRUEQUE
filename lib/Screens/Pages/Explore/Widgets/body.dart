@@ -1,3 +1,5 @@
+import 'package:trueque/Screens/Pages/Explore/Widgets/details.dart';
+
 import 'category_group.dart';
 import 'package:flutter/material.dart';
 import 'package:trueque/Screens/Pages/Explore/Widgets/search_bar.dart';
@@ -63,15 +65,21 @@ class Body extends StatelessWidget {
         ),
         CategoryGroupWidget(
           title: 'Cerca de ti',
-          functionViewMore: () {},
+          functionViewMore: () {
+            Get.to(DetailsPage());
+          },
         ),
         CategoryGroupWidget(
           title: 'Frutas y verduras',
-          functionViewMore: () {},
+          functionViewMore: () {
+            Get.to(DetailsPage());
+          },
         ),
         CategoryGroupWidget(
           title: 'Varios',
-          functionViewMore: () {},
+          functionViewMore: () {
+            Get.to(DetailsPage());
+          },
         ),
       ])),
     );

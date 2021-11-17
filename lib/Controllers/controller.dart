@@ -1,12 +1,23 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 
 class Controller extends GetxController {
   var _name = 'Pepito Perez'.obs;
   var _imagePath = 'assets/images/Profile_Image.png'.obs;
   var _listProducts = [
-    ['Papa pastusa', 'assets/images/papa.png'],
-    ['Maracuya', 'assets/images/maracuya.png']
+    [
+      'Papa pastusa',
+      'assets/images/papa.png',
+      350,
+      LatLng(4.6017065, -74.0719056)
+    ],
+    [
+      'Maracuya',
+      'assets/images/maracuya.png',
+      450,
+      LatLng(4.6048805, -74.0751683)
+    ]
   ].obs;
   var _notifications = [
     'Compro Papa',
