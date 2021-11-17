@@ -61,7 +61,6 @@ class _EditProfilePageState extends State<MyProfile> {
               TextFieldWidget(
                 label: 'ID number',
                 text: '${widCtrl.cedula}',
-                // ignore: non_constant_identifier_names
                 onChanged: (cedula) {},
               ),
               const SizedBox(height: 20),
