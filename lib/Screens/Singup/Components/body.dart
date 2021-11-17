@@ -9,6 +9,7 @@ import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:trueque/Elements/SocialIcon.dart';
 import 'package:trueque/Screens/Login/login_screen.dart';
 import 'package:trueque/Screens/Singup/Components/background.dart';
+// ignore: duplicate_import
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
@@ -51,11 +52,6 @@ class Body extends StatelessWidget {
             onChanged: (value) {email = value;},
             icon: Icons.email,
           ),
-          // Obx(()=>Text(_authController.error, style: TextStyle(
-          //     fontSize: 10.0,
-          //     fontWeight: FontWeight.bold,
-          //     color: Colors.red,)
-          //   ),),
           RoundedInput(
             hintText: 'Contraseña',
             obText: true,
@@ -66,6 +62,7 @@ class Body extends StatelessWidget {
           RoundedButton(
             text: 'Registrar',
             press: () async {
+              // ignore: unused_local_variable
               dynamic result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name, surname:surname);
               // print(result);
               },

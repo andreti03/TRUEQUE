@@ -1,4 +1,5 @@
 import 'package:trueque/Screens/Pages/Explore/Widgets/details.dart';
+// ignore: unused_import
 import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
 
 import 'category_group.dart';
