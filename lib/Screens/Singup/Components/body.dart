@@ -9,6 +9,7 @@ import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:trueque/Elements/SocialIcon.dart';
 import 'package:trueque/Screens/Login/login_screen.dart';
 import 'package:trueque/Screens/Singup/Components/background.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -93,14 +94,7 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.02),
           AlrHavAcc(
             press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return LoginScreen();
-                  },
-                ),
-              );
+              Get.to(() => LoginScreen());
             },
             login: false,
           )

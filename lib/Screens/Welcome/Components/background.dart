@@ -19,7 +19,7 @@ class Background extends StatelessWidget {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          kPrimaryLigthColor,
+          kPrimaryDarkColor,
           kPrimaryColor,
         ],
       )),

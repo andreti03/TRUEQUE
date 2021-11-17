@@ -6,10 +6,12 @@ import 'package:trueque/Domain/Authentication/sign_in.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
+import 'package:trueque/Elements/SocialIcon.dart';
 import 'package:trueque/Screens/Login/Components/ForgPassw.dart';
 import 'package:trueque/Screens/Login/Components/background.dart';
+import 'package:trueque/Screens/Pages/Home/home_page.dart';
 import 'package:trueque/Screens/Singup/singup_screen.dart';
-import 'package:trueque/constants.dart';
+import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -26,7 +28,7 @@ class Body extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: size.height * 0.1),
+          SizedBox(height: size.height * 0.06),
           Text(
             'Iniciar sesión',
             style: TextStyle(
@@ -62,7 +64,7 @@ class Body extends StatelessWidget {
               print('Hola');
             },
           ),
-          SizedBox(height: size.height * 0.15),
+          SizedBox(height: size.height * 0.20),
           Text(
             'Continuar con',
             style: TextStyle(color: Colors.grey),
@@ -94,50 +96,12 @@ class Body extends StatelessWidget {
             ],
           ),
           SizedBox(height: size.height * 0.02),
-          AlrHavAcc(press: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return SingupScreen();
-                },
-              ),
-            );
-          })
-        ],
-      ),
-    );
-  }
-}
-
-class SocialIcon extends StatelessWidget {
-  final String asst;
-  final VoidCallback press;
-  const SocialIcon({
-    Key? key,
-    required this.asst,
-    required this.press,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: kPrimaryLigthColor,
+          AlrHavAcc(
+            press: () {
+                Get.to(() => SingupScreen());
+            },
           ),
-          shape: BoxShape.circle,
-        ),
-        child: SvgPicture.asset(
-          asst,
-          width: 30,
-          height: 30,
-        ),
+        ],
       ),
     );
   }
