@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +15,6 @@ class AddProducts extends StatefulWidget {
 class _AddProductsState extends State<AddProducts> {
   CollectionReference products = FirebaseFirestore.instance.collection('Products');
   final Controller controller = Get.put(Controller());
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final nameController = TextEditingController();
 
@@ -28,8 +26,6 @@ class _AddProductsState extends State<AddProducts> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String name = '';
-    String price = '';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -52,17 +48,13 @@ class _AddProductsState extends State<AddProducts> {
                   textController: nameController,
                   hintText: 'Nombre producto',
                   icon: Icons.shopping_basket_outlined,
-                  onChanged: (value) {
-                    name = value;
-                  },
+                  onChanged: (value) {},
                 ),
                 RoundedInput(
                   textController: priceController,
                   hintText: 'Precio',
                   icon: Icons.price_change,
-                  onChanged: (value) {
-                    price = value;
-                  },
+                  onChanged: (value) {},
                 ),
                 SizedBox(
                   height: 30,

@@ -1,4 +1,3 @@
-//import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
@@ -10,11 +9,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Controller extends GetxController {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
   CollectionReference products = FirebaseFirestore.instance.collection('Products');
+  CollectionReference productsTotal = FirebaseFirestore.instance.collection('ProductsTotal');
   var storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Location _locationService = Location();
@@ -24,6 +23,7 @@ class Controller extends GetxController {
   var _email = ''.obs;
   var _cellphone = ''.obs;
   var _listProducts = [].obs;
+  var _listProductsTotal = [].obs;
   var _date = DateFormat('yyyy-MM-dd').obs;
   var _gender= true.obs;
   var _file = File('').obs;
@@ -45,6 +45,7 @@ class Controller extends GetxController {
   String get imagePath => _imagePath.value;
   Map<String, List> get mapProducts => {..._mapProducts};
   List<List> get listProducts => [... _listProducts];
+  List<List> get listProductsTotal => [... _listProductsTotal];
   List<String> get notifications => [..._notifications];
   bool get isLog => _isLog.value;
   String get cedula => _cedula.value;
@@ -100,6 +101,16 @@ class Controller extends GetxController {
           print("success!");}
         ); 
 
+    productsTotal.doc(code).set(
+          {'name': nameProduct,
+          'price': precio,
+          'imagePath': '',
+          'lat': location.latitude,
+          'lng': location.longitude},
+          SetOptions(merge: true)).then((_){
+          print("success!");}
+        ); 
+
     try{
       var imagePath = File(image.path);
       var uid = _auth.currentUser?.uid;
@@ -112,6 +123,15 @@ class Controller extends GetxController {
           SetOptions(merge: true)).then((_){
           print("success!");}
         );      
+
+      await productsTotal.doc(code).set(
+          {'imagePath': dowurl.toString()},
+          SetOptions(merge: true)).then((_){
+          print("success!");}
+        ); 
+
+      var productsTot = await productsTotal.doc(code).get();
+      _listProductsTotal.add([productsTot['name'], productsTot['imagePath'], productsTot['price'], LatLng(productsTot['lat'], productsTot['lng'])]);
       changeListProducts();   
     }catch(e){
       print('Error');
@@ -119,17 +139,17 @@ class Controller extends GetxController {
 
   }
     Future<void> productsUser(String name, String price, File image) async {
-    String code = CreateCryptoRandomString();
-    var doc = await products.doc(_auth.currentUser!.uid).collection(_auth.currentUser!.uid).doc(code).get();
+    String code = createCryptoRandomString();
+    var doc = await productsTotal.doc(code).get();
     if(!doc.exists){
       await addProduct(name, price, image, code);
     } else{
-      code = CreateCryptoRandomString();
+      code = createCryptoRandomString();
       productsUser(name, price, image);
     }
   }
 
-  String CreateCryptoRandomString([int length = 32]) {
+  String createCryptoRandomString([int length = 32]) {
     final Random _random = Random.secure();
       var values = List<int>.generate(length, (i) => _random.nextInt(256));
       return base64Url.encode(values);

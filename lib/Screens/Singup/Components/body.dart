@@ -69,6 +69,13 @@ class Body extends StatelessWidget {
             press: () async {
               dynamic result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name);
               // print(result);
+              if (result == 'success'){
+                passController.clear();
+                emailController.clear();
+                nameController.clear();
+                surnameController.clear();
+                Get.off(() => LoginScreen());
+              }
               },
             pd: 10,
           ),

@@ -58,7 +58,6 @@ class AuthenticationController extends GetxController{
       );
       var doc = await users.doc(_auth.currentUser!.uid).get();
       if (doc.exists){
-      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         var uploadTask = storage
                     .ref("Profile/avatar-png-green.png");
         var dowurl = await uploadTask.getDownloadURL();
@@ -69,6 +68,7 @@ class AuthenticationController extends GetxController{
             SetOptions(merge: true)).then((_){
             print("success!");}
         );
+        return 'success';
       }
     }on FirebaseAuthException catch(e){
         if (e.code == 'invalid-email'){

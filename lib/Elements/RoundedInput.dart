@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class RoundedInput extends StatelessWidget {
   TextEditingController textController = TextEditingController();
   final String hintText;
