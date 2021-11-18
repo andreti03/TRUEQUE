@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,30 +46,17 @@ class Body extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-          child: Column(children: [
+      body: Column(children: [
         SizedBox(
-          height: 20,
+      height: 20,
         ),
         CategoryGroupWidget(
-          title: 'Cerca de ti',
-          functionViewMore: () {
-            Get.to(DetailsPage());
-          },
+      title: 'Productos',
+      functionViewMore: () {
+        Get.to(()=>DetailsPage());
+      },
         ),
-        CategoryGroupWidget(
-          title: 'Frutas y verduras',
-          functionViewMore: () {
-            Get.to(DetailsPage());
-          },
-        ),
-        CategoryGroupWidget(
-          title: 'Varios',
-          functionViewMore: () {
-            Get.to(DetailsPage());
-          },
-        ),
-      ])),
+      ]),
     );
   }
 }

@@ -10,12 +10,14 @@ class ItemCardWidget extends StatelessWidget {
       : super(key: key);
 
   final String productName;
-  final int productCost;
+  final String productCost;
   final String imagePath;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
       width: 200,
       margin: EdgeInsets.only(left: 10, top: 5, bottom: 20),
       child: Column(
@@ -25,7 +27,7 @@ class ItemCardWidget extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.fill, image: AssetImage(imagePath)),
+                  fit: BoxFit.fill, image: NetworkImage(imagePath)),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -77,7 +79,7 @@ class ItemCardWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

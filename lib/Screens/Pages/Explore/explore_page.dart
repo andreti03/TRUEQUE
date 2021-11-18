@@ -9,7 +9,7 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Controller controller = Get.put(Controller());
-    controller.changeListProducts();
+    controller.changeListProductsTotal();
     return Scaffold(
       body: Body(),
     );

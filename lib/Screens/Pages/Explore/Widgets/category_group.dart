@@ -1,14 +1,19 @@
+import 'package:get/get.dart';
+import 'package:trueque/Controllers/controller.dart';
+
 import 'item_card.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CategoryGroupWidget extends StatelessWidget {
-  const CategoryGroupWidget(
+  CategoryGroupWidget(
       {Key? key, required this.title, required this.functionViewMore})
       : super(key: key);
 
   final String title;
   final Function()? functionViewMore;
-
+  Controller controller = Get.put(Controller());
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,56 +39,23 @@ class CategoryGroupWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
-              ItemCardWidget(
-                productName: "Papa Pastusa",
-                productCost: 350,
-                imagePath: "assets/images/Papa_pastusa.png",
-              ),
+              Container(
+                width: 500,
+                height: 300,
+                child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.listProducts.length,
+                itemBuilder: (context, idx) {
+                  print(controller.listProducts);
+                  return ItemCardWidget(
+                      productName: controller.listProducts[idx][0],
+                      productCost: controller.listProducts[idx][2],
+                      imagePath: controller.listProducts[idx][1],
+                    );
+                },
+            ),
+              )
+              
             ],
           ),
         )
