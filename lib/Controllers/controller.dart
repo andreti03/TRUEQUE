@@ -24,8 +24,7 @@ class Controller extends GetxController {
   var _cellphone = ''.obs;
   var _listProducts = [].obs;
   var _listProductsTotal = [].obs;
-  var _date = DateFormat('yyyy-MM-dd').obs;
-  var _gender= true.obs;
+  var _gender= ''.obs;
   var _file = File('').obs;
   var _imagePath = ''.obs;
   var _mapProducts = {}.obs;
@@ -51,29 +50,11 @@ class Controller extends GetxController {
   String get cedula => _cedula.value;
   String get email => _email.value;
   String get cellphone => _cellphone.value;
-  DateFormat get date => _date.value;
-  bool get gender => _gender.value;
+  String get gender => _gender.value;
   File get file => _file.value;
 
-
-  String genderFunction() {
-    if (_gender.value == true) {
-      return 'male';
-    } else {
-      return 'female';
-    }
-  }
-
-  void changedGender(bool newGender){
+  void changedGender(String newGender){
     _gender.value = newGender;
-    print(_gender.value);
-  }
-
-  String? validator(String value) {
-    if (value.isEmpty) {
-      return 'Please this field must be filled';
-    }
-    return null;
   }
 
   Future<void> changeListProducts() async {
@@ -189,36 +170,28 @@ class Controller extends GetxController {
     }
   }
 
-  void idNumberChanged(String val) {
+  void updateUser(String newCedula, String newName, String newCellphone) {
+    if (newCedula==''){
+      newCedula = _cedula.value;
+    }
+    if (newName==''){
+      newName = _name.value;
+    }
+    if (newCellphone==''){
+      newCellphone = _cellphone.value;
+    }
     var doc = users.doc(_auth.currentUser!.uid);
-    _cedula.value = val;
+    _cedula.value = newCedula;
+    _name.value = newName;
+    _cellphone.value = newCellphone;
     doc.update({
-      'id_number': _cedula.value
+      'id_number': _cedula.value,
+      'gender': _gender.value,
+      'name': _name.value,
+      'phone': _cellphone.value
     });
-    update();
-    print('New name: $_cedula');
   }
 
-  void usernameChanged(String val) {
-    var doc = users.doc(_auth.currentUser!.uid);
-    _name.value = val;
-    doc.update({
-      'name': _name.value
-    });
-    update();
-    print('New name: $_name');
-  }
-
-  void imgProfileChanged(String val) {
-    var doc = users.doc(_auth.currentUser!.uid);
-    _imagePath.value = val;
-    doc.update({
-      'image_path': _imagePath.value
-    });
-    // _imagePath.value = 'assets/images/' + val + '.png';
-    update();
-    print('New Image: $_imagePath');
-  }
 
   Future<bool> Function() submitFunction() {
     return () async {

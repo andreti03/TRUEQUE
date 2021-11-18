@@ -48,11 +48,8 @@ class AuthenticationController extends GetxController{
         'email': email, 
         'id_number': '', 
         'phone': '', 
-        'birth': '',
         'image_path': '',
-        'date' : '',
-        'gender' : '',
-        'num_products':''},
+        'gender' : '',},
         SetOptions(merge: true)).then((_){
         print("success!");}
       );
@@ -90,13 +87,10 @@ class AuthenticationController extends GetxController{
     await users.doc(_auth.currentUser!.uid).set(
       {'name': userCred.user?.displayName, 
       'email': userCred.user?.email, 
-      'id_number': '', 
-      'phone': '', 
+      'id_number': '',  
       'birth': '',
-      'date': '', 
       'gender' : '',
-      'image_path': userCred.user?.photoURL,
-      'num_products':''},
+      'image_path': userCred.user?.photoURL,},
       SetOptions(merge: true)).then((_){
       print("success!");}
     );
