@@ -3,16 +3,11 @@ import 'package:get/get.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Screens/Pages/Explore/Widgets/item_card.dart';
 
-class DetailsPage extends StatefulWidget {
-  const DetailsPage({Key? key}) : super(key: key);
+class ShoppingPage extends StatelessWidget {
+  ShoppingPage({Key? key}) : super(key: key);
 
-  @override
-  _DetailsPageState createState() => _DetailsPageState();
-}
+  final Controller controller = Get.put(Controller());
 
-final Controller controller = Get.put(Controller());
-
-class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,13 +34,12 @@ class _DetailsPageState extends State<DetailsPage> {
               productName: controller.listProducts[idx][0],
               productCost: controller.listProducts[idx][2],
               imagePath: controller.listProducts[idx][1],
-              namebutton: 'Añadir',
+              namebutton: 'Eliminar',
               functionButton: () {
                 print('hola');
               },
             );
           }),
         ));
-    ;
   }
 }

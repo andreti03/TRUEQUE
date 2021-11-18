@@ -254,6 +254,7 @@ class _MapItemDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -267,8 +268,8 @@ class _MapItemDetails extends StatelessWidget {
               width: 10,
             ),
             Container(
-              height: 150,
-              width: 150,
+              height: size.height * 0.2,
+              width: size.height * 0.22,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.fill, image: AssetImage(imagePath)),
@@ -303,7 +304,10 @@ class _MapItemDetails extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print(size.width * 0.365);
+                      print(size.height * 0.22);
+                    },
                     color: kPrimaryDarkColor,
                     elevation: 5,
                     child: Text(

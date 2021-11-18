@@ -1,6 +1,7 @@
 import 'package:trueque/Controllers/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trueque/Screens/Pages/Explore/Widgets/shopping_page.dart';
 import 'package:trueque/Screens/Pages/Profile/Components/notification.dart';
 // ignore: unused_import
 import 'package:trueque/constants.dart';
@@ -37,7 +38,9 @@ class Notifications extends StatelessWidget {
                   color: Colors.white,
                 ),
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => ShoppingPage());
+                },
               ),
             ),
           ),

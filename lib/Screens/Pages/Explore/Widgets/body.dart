@@ -1,7 +1,7 @@
 import 'package:trueque/Screens/Pages/Explore/Widgets/details.dart';
+import 'package:trueque/Screens/Pages/Explore/Widgets/shopping_page.dart';
 import 'category_group.dart';
 import 'package:flutter/material.dart';
-import 'package:trueque/Screens/Pages/Explore/Widgets/search_bar.dart';
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
@@ -36,7 +36,9 @@ class Body extends StatelessWidget {
                   color: Colors.white,
                 ),
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => ShoppingPage());
+                },
               ),
             ),
           ),
@@ -47,10 +49,6 @@ class Body extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Column(children: [
-        SizedBox(
-          height: 20,
-        ),
-        SearchBarWidget(),
         SizedBox(
           height: 20,
         ),
