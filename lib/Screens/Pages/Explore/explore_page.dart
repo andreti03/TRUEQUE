@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:trueque/Controllers/controller.dart';
 import 'Widgets/body.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -6,6 +8,8 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Controller controller = Get.put(Controller());
+    controller.changeListProducts();
     return Scaffold(
       body: Body(),
     );

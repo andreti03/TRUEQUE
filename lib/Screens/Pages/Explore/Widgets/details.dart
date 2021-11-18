@@ -33,22 +33,24 @@ class _DetailsPageState extends State<DetailsPage> {
                 color: Colors.black,
               )),
         ),
-        body: Column(
-          children: List.generate(controller.listProducts.length, (idx) {
-            return ItemDetails(
-              productName: controller.listProducts[idx][0],
-              productCost: controller.listProducts[idx][2],
-              imagePath: controller.listProducts[idx][1],
-              namebutton: 'Añadir',
-              functionButton: () {
-                controller.AddShoppingList(
-                    controller.listProducts[idx][0],
-                    controller.listProducts[idx][1],
-                    controller.listProducts[idx][2],
-                    controller.listProducts[idx][3]);
-              },
-            );
-          }),
+        body: SingleChildScrollView(
+          child: Column(
+            children: List.generate(controller.listProductsTotal.length, (idx) {
+              return ItemDetails(
+                productName: controller.listProductsTotal[idx][0],
+                productCost: controller.listProductsTotal[idx][2],
+                imagePath: controller.listProductsTotal[idx][1],
+                namebutton: 'Añadir',
+                functionButton: () {
+                  controller.AddShoppingList(
+                      controller.listProductsTotal[idx][0],
+                      controller.listProductsTotal[idx][1],
+                      controller.listProductsTotal[idx][2],
+                      controller.listProductsTotal[idx][3]);
+                },
+              );
+            }),
+          ),
         ));
   }
 }

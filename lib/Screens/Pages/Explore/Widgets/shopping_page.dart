@@ -10,6 +10,7 @@ class ShoppingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.changeListProductsTotal();
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -28,22 +29,36 @@ class ShoppingPage extends StatelessWidget {
                 color: Colors.black,
               )),
         ),
-        body: Column(
-          children: List.generate(controller.listProducts.length, (idx) {
-            return Obx(() => ItemDetails(
-                  productName: controller.listProducts[idx][0],
-                  productCost: controller.listProducts[idx][2],
-                  imagePath: controller.listProducts[idx][1],
-                  namebutton: 'Eliminar',
-                  functionButton: () {
-                    controller.RemoveShoppingList(
-                        controller.listProducts[idx][0],
-                        controller.listProducts[idx][1],
-                        controller.listProducts[idx][2],
-                        controller.listProducts[idx][3]);
-                  },
-                ));
-          }),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.shoppingList.length,
+              itemBuilder: (context, idx) {
+                return ItemDetails(
+                    productName: controller.shoppingList[idx][0],
+                    productCost: controller.shoppingList[idx][2],
+                    imagePath: controller.shoppingList[idx][1],
+                    namebutton: 'Eliminar',
+                    functionButton: () {
+                      controller.RemoveShoppingList(idx);
+                      Get.back();
+                    },
+                  );
+              },
+            )]
+            // children: List.generate(controller.shoppingList.length, (idx) {
+            //   return Obx(() => ItemDetails(
+            //         productName: controller.shoppingList[idx][0],
+            //         productCost: controller.shoppingList[idx][2],
+            //         imagePath: controller.shoppingList[idx][1],
+            //         namebutton: 'Eliminar',
+            //         functionButton: () {
+            //           controller.RemoveShoppingList(idx);
+            //         },
+            //       ));
+            // }),
+          ),
         ));
   }
 }

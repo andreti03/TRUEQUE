@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
-  get controller => null;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

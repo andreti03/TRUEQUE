@@ -1,33 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 
-class Help extends StatelessWidget {
+
+class Help extends StatefulWidget {
+  @override
+  HelpState createState() => HelpState();
+}
+
+class HelpState extends State<Help> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<String> createList(){
+    List<String> pdfList = [];
+    for(int i=1; i<=20;i++){
+      if (i <= 9){
+        pdfList.add('assets/pdf/mypdf_page-000$i.png');
+      }
+      else{
+        pdfList.add('assets/pdf/mypdf_page-00$i.png');
+      }
+    }
+    return pdfList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Trueque',
-          style: TextStyle(fontSize: 35, color: Colors.black),
+    List<String> pdfList = createList();
+    return 
+          Column(
+            children: [
+              Expanded(
+              child: SizedBox(
+                height: 200.0,
+                child: new ListView.builder(
+                  itemCount: pdfList.length,
+                  itemBuilder: (BuildContext ctxt, int index) {
+                    return new Image(image: AssetImage(pdfList[index]));
+                  },
+                ),
+              ),
         ),
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back_outlined,
-              color: Colors.black,
-            )),
-      ),
-      body: Center(
-        child: Text(
-          'AYUDA',
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-    );
+            ],
+          );
+    
   }
 }

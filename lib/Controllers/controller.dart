@@ -48,7 +48,7 @@ class Controller extends GetxController {
   List<List> get listProducts => [..._listProducts];
   List<List> get listProductsTotal => [..._listProductsTotal];
   List<String> get notifications => [..._notifications];
-  List<String> get shoppingList => [..._shoppingList];
+  List<dynamic> get shoppingList => [..._shoppingList];
   bool get isLog => _isLog.value;
   String get cedula => _cedula.value;
   String get email => _email.value;
@@ -68,9 +68,29 @@ class Controller extends GetxController {
 
   // ignore: non_constant_identifier_names
   void RemoveShoppingList(
-      String name, String imagePath, String price, LatLng location) {
-    _shoppingList.remove([name, imagePath, price, location]);
-    _shoppingList.join(', ');
+      int idx) {
+    _shoppingList.removeAt(idx);
+  }
+
+  Future<void> changeListProductsTotal() async {
+    _listProductsTotal.value = [];
+    var userProducts = await productsTotal.get();
+    if (userProducts.docs.isNotEmpty) {
+      for (var i in userProducts.docs) {
+        mapProducts[i.id] = [
+          i['name'],
+          i['imagePath'],
+          i['price'],
+          LatLng(i['lat'], i['lng'])
+        ];
+        _listProductsTotal.add([
+          i['name'],
+          i['imagePath'],
+          i['price'],
+          LatLng(i['lat'], i['lng'])
+        ]);
+      }
+    }
   }
 
   Future<void> changeListProducts() async {
@@ -80,7 +100,6 @@ class Controller extends GetxController {
         .collection(_auth.currentUser!.uid)
         .get();
     if (userProducts.docs.isNotEmpty) {
-      print('entro');
       for (var i in userProducts.docs) {
         Map<String, dynamic>? data = i.data();
         mapProducts[i.id] = [
