@@ -30,15 +30,19 @@ class ShoppingPage extends StatelessWidget {
         ),
         body: Column(
           children: List.generate(controller.listProducts.length, (idx) {
-            return ItemDetails(
-              productName: controller.listProducts[idx][0],
-              productCost: controller.listProducts[idx][2],
-              imagePath: controller.listProducts[idx][1],
-              namebutton: 'Eliminar',
-              functionButton: () {
-                print('hola');
-              },
-            );
+            return Obx(() => ItemDetails(
+                  productName: controller.listProducts[idx][0],
+                  productCost: controller.listProducts[idx][2],
+                  imagePath: controller.listProducts[idx][1],
+                  namebutton: 'Eliminar',
+                  functionButton: () {
+                    controller.RemoveShoppingList(
+                        controller.listProducts[idx][0],
+                        controller.listProducts[idx][1],
+                        controller.listProducts[idx][2],
+                        controller.listProducts[idx][3]);
+                  },
+                ));
           }),
         ));
   }

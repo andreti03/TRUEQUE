@@ -41,11 +41,14 @@ class _DetailsPageState extends State<DetailsPage> {
               imagePath: controller.listProducts[idx][1],
               namebutton: 'Añadir',
               functionButton: () {
-                print('hola');
+                controller.AddShoppingList(
+                    controller.listProducts[idx][0],
+                    controller.listProducts[idx][1],
+                    controller.listProducts[idx][2],
+                    controller.listProducts[idx][3]);
               },
             );
           }),
         ));
-    ;
   }
 }

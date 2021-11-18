@@ -189,6 +189,8 @@ class _BodyState extends State<Body> {
                       productName: item[0],
                       imagePath: item[1],
                       productCost: item[2],
+                      loc: item[3],
+                      contro: controller,
                     );
                   },
                 ),
@@ -245,12 +247,16 @@ class _MapItemDetails extends StatelessWidget {
       {Key? key,
       required this.productName,
       required this.productCost,
-      required this.imagePath})
+      required this.imagePath,
+      required this.loc,
+      required this.contro})
       : super(key: key);
 
   final String productName;
   final String productCost;
   final String imagePath;
+  final LatLng loc;
+  final Controller contro;
 
   @override
   Widget build(BuildContext context) {
@@ -305,8 +311,8 @@ class _MapItemDetails extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30),
                   child: MaterialButton(
                     onPressed: () {
-                      print(size.width * 0.365);
-                      print(size.height * 0.22);
+                      contro.AddShoppingList(
+                          productName, imagePath, productCost, loc);
                     },
                     color: kPrimaryDarkColor,
                     elevation: 5,

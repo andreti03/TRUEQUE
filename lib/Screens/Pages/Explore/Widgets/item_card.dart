@@ -92,7 +92,7 @@ class ItemDetails extends StatelessWidget {
       : super(key: key);
 
   final String productName;
-  final int productCost;
+  final String productCost;
   final String imagePath;
   final String namebutton;
   final Function()? functionButton;
@@ -117,7 +117,7 @@ class ItemDetails extends StatelessWidget {
               width: size.height * 0.22,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.fill, image: AssetImage(imagePath)),
+                    fit: BoxFit.fill, image: NetworkImage(imagePath)),
                 borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
             ),
@@ -160,7 +160,7 @@ class ItemDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             )
           ],
