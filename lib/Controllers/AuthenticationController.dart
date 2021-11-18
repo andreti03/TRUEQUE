@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trueque/Controllers/controller.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-// import 'package:twitter_login/entity/auth_result.dart';
-// import 'package:twitter_login/twitter_login.dart';
 
 
 class AuthenticationController extends GetxController{
@@ -21,8 +16,6 @@ class AuthenticationController extends GetxController{
   final Controller controller = Get.put(Controller());
 
   String get error => _error.value;
-
-  // User? get currentUser => _auth.currentUser;
 
   Future<String?> signInWithEmailAndPassword({required String email, required String password}) async{
     try{
@@ -58,13 +51,13 @@ class AuthenticationController extends GetxController{
         'birth': '',
         'image_path': '',
         'date' : '',
-        'gender' : ''},
+        'gender' : '',
+        'num_products':''},
         SetOptions(merge: true)).then((_){
         print("success!");}
       );
       var doc = await users.doc(_auth.currentUser!.uid).get();
       if (doc.exists){
-      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         var uploadTask = storage
                     .ref("Profile/avatar-png-green.png");
         var dowurl = await uploadTask.getDownloadURL();
@@ -75,6 +68,7 @@ class AuthenticationController extends GetxController{
             SetOptions(merge: true)).then((_){
             print("success!");}
         );
+        return 'success';
       }
     }on FirebaseAuthException catch(e){
         if (e.code == 'invalid-email'){
@@ -101,7 +95,8 @@ class AuthenticationController extends GetxController{
       'birth': '',
       'date': '', 
       'gender' : '',
-      'image_path': userCred.user?.photoURL},
+      'image_path': userCred.user?.photoURL,
+      'num_products':''},
       SetOptions(merge: true)).then((_){
       print("success!");}
     );
@@ -118,64 +113,3 @@ class AuthenticationController extends GetxController{
   await _googleSignIn.signOut();
 }
 }
-
-
-// Future<String?> signUp(
-//   {required String email, required String password}) async{
-//     try{
-//       await _fbAuth.crea
-//     }
-//   }
-// )
-
-
-// Future<UserCredential> signInWithGoogle() async {
-//   // Trigger the authentication flow
-//   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-//   // Obtain the auth details from the request
-//   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-//   // Create a new credential
-//   final credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth?.accessToken,
-//     idToken: googleAuth?.idToken,
-//   );
-
-//   // Once signed in, return the UserCredential
-//   UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
-//   print(userCred);
-//   return userCred;
-// }
-
-// Future<UserCredential> signInWithFacebook() async {
-//   // Trigger the sign-in flow
-//   final LoginResult loginResult = await FacebookAuth.instance.login();
-
-//   // Create a credential from the access token
-//   final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
-//   // Once signed in, return the UserCredential
-//   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-// }
-
-// Future<UserCredential> signInWithTwitter() async {
-//   // Create a TwitterLogin instance
-//   final twitterLogin = new TwitterLogin(
-//     apiKey: '<your consumer key>',
-//     apiSecretKey:' <your consumer secret>',
-//     redirectURI: '<your_scheme>://'
-//   );
-
-//   // Trigger the sign-in flow
-//   final authResult = twitterLogin.login();
-
-//   // Create a credential from the access token
-//   final twitterAuthCredential = TwitterAuthProvider.credential(
-//     accessToken: authResult.authToken!,
-//     secret: authResult.authTokenSecret!,
-//   );
-
-//   // Once signed in, return the UserCredential
-//   return await FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
-// }
