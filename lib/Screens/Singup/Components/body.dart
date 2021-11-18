@@ -65,7 +65,7 @@ class Body extends StatelessWidget {
             text: 'Registrar',
             press: () async {
               // ignore: unused_local_variable
-              String result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name, surname:surname);
+              String result = await _authController.signUpWithEmailAndPassword(email: email, password: password, name:name);
               // print(result);
               if (result == 'success'){
                 passController.clear();
