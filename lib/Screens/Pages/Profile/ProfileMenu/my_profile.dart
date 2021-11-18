@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:trueque/Screens/Pages/Profile/Components/auxi.dart';
+import 'package:trueque/constants.dart';
 
 class MyProfile extends StatefulWidget {
   @override
@@ -15,14 +17,11 @@ class _EditProfilePageState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     controller.updateInformationRegister();
-
-    // String fecha =
-        // "${controller.date.year.toString()}/${controller.date.month.toString().padLeft(2, '0')}/${controller.date.day.toString().padLeft(2, '0')}";
-    //Size size = MediaQuery.of(context).size;
-    // var imageasset = new AssetImage(controller.imagePath);
-    // var image = new Image(image: imageasset, fit: BoxFit.cover);
     var image = Image.network(controller.imagePath, fit: BoxFit.cover,);
-    String gendervalue = controller.genderFunction();
+    TextEditingController cedula = TextEditingController();
+    TextEditingController name = TextEditingController();
+    TextEditingController email = TextEditingController();
+    TextEditingController cellphone = TextEditingController();
     return GetX<Controller>(
       init: controller,
       builder: (Controller widCtrl) {
@@ -51,62 +50,62 @@ class _EditProfilePageState extends State<MyProfile> {
               const SizedBox(height: 15),
               ProfileWidget(imagePath: image, onClicked: () async {controller.handleChooseImageFromGallery();}),
               const SizedBox(height: 30),
-              TextFieldWidget(
-                label: 'Name',
-                text: widCtrl.name,
-                onChanged: (name) {widCtrl.usernameChanged(name);},
+              RoundedInput(
+                textController: name,
+                hintText: widCtrl.name,
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20),
-              TextFieldWidget(
-                label: 'ID number',
-                text: widCtrl.cedula,
-                // ignore: non_constant_identifier_names
-                onChanged: (cedula) {},
+              RoundedInput(
+                icon: Icons.featured_play_list,
+                textController: cedula,
+                hintText: widCtrl.cedula,
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20),
-              TextFieldWidget(
-                label: 'E-mail',
-                text: widCtrl.email,
-                onChanged: (email) {},
+              RoundedInput(
+                icon: Icons.mail,
+                textController: email,
+                hintText: widCtrl.email,
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20),
-              TextFieldWidget(
-                label: 'Mobile phone',
-                text: widCtrl.cellphone,
-                onChanged: (cellphone) {},
-              ),
-              const SizedBox(height: 20),
-              TextFieldWidget(
-                label: 'Date of birth',
-                text: '',//fecha,
-                onChanged: (date) {},
+              RoundedInput(
+                icon: Icons.phone,
+                textController: cellphone,
+                hintText: widCtrl.cellphone,
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20),
               Text(
-            'Gender',
+            'Género',
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
               ),
-                ListTile(
-                leading: Radio(
-                  value: 'male',
-                  groupValue: gendervalue,
-                  onChanged: (value) {
-                    gendervalue = '$value';
-                    widCtrl.changedGender(true);
-                  },
+              Container(
+                padding:
+                EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10)),
+                child: DropdownButton<String>(
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  value: widCtrl.gender,
+                  items: <String>['','Masculino', 'Femenino', 'No Binario'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {widCtrl.changedGender(value!);},
                 ),
-              title: Text('Male')),
-                ListTile(
-                leading: Radio(
-                  value: 'female',
-                  groupValue: gendervalue,
-                  onChanged: (value) {
-                    gendervalue = '$value';
-                    widCtrl.changedGender(false);
-                  },
-                ),
-              title: Text('Female')),
+              ),
+              TextButton(onPressed: () {widCtrl.updateUser(cedula.text, name.text, cellphone.text);
+                                        Get.back();
+                                  }
+              , 
+                                  child: Text('Actualizar Información', 
+                                          style: TextStyle(color: kPrimaryColor, fontSize: 20),))
             ],
           ),
         );
