@@ -1,5 +1,8 @@
 import 'package:trueque/Screens/Pages/Explore/Widgets/details.dart';
 import 'package:trueque/Screens/Pages/Explore/Widgets/shopping_page.dart';
+// ignore: unused_import
+import 'package:trueque/Screens/Pages/Explore/explore_page.dart';
+
 import 'category_group.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

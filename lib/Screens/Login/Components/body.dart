@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trueque/Controllers/AuthenticationController.dart';
 import 'package:trueque/Elements/AlrHavAcc.dart';
 import 'package:trueque/Elements/RoundedButton.dart';
