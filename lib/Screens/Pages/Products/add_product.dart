@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trueque/Controllers/controller.dart';
 import 'package:trueque/Elements/RoundedInput.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,7 +14,9 @@ class AddProducts extends StatefulWidget {
 }
 
 class _AddProductsState extends State<AddProducts> {
+  CollectionReference products = FirebaseFirestore.instance.collection('Products');
   final Controller controller = Get.put(Controller());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final nameController = TextEditingController();
 
@@ -24,7 +28,10 @@ class _AddProductsState extends State<AddProducts> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String name = '';
+    String price = '';
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -46,7 +53,7 @@ class _AddProductsState extends State<AddProducts> {
                   hintText: 'Nombre producto',
                   icon: Icons.shopping_basket_outlined,
                   onChanged: (value) {
-                    print(nameController);
+                    name = value;
                   },
                 ),
                 RoundedInput(
@@ -54,19 +61,28 @@ class _AddProductsState extends State<AddProducts> {
                   hintText: 'Precio',
                   icon: Icons.price_change,
                   onChanged: (value) {
-                    print(priceController);
+                    price = value;
                   },
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 // ignore: unnecessary_null_comparison
-                imagen == null ? Center() : Image.file(imagen!),
+                imagen == null ? Center() : Image.file(imagen!, width: 300,height: 300,),
                 ElevatedButton(
                   onPressed: () {
                     imagePicker(context, size);
                   },
                   child: Text('Seleccionar Imagen'),
+                  style:
+                      TextButton.styleFrom(backgroundColor: kPrimaryLigthColor),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    controller.productsUser(nameController.text, priceController.text, imagen!);
+                    Get.back();
+                  },
+                  child: Text('Guardar'),
                   style:
                       TextButton.styleFrom(backgroundColor: kPrimaryLigthColor),
                 ),
@@ -89,7 +105,7 @@ class _AddProductsState extends State<AddProducts> {
 
     setState(() {
       if (pickedFile != null) {
-        imagen = File(pickedFile);
+        imagen = File(pickedFile!.path);
       } else {
         print('ERROR');
       }

@@ -23,7 +23,7 @@ class Product extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitWidth,
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),

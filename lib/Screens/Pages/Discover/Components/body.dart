@@ -181,7 +181,7 @@ class _BodyState extends State<Body> {
                 width: size.width - 5,
                 child: PageView.builder(
                   controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
                   itemCount: controller.listProducts.length,
                   itemBuilder: (context, idx) {
                     final item = controller.listProducts[idx];
@@ -249,7 +249,7 @@ class _MapItemDetails extends StatelessWidget {
       : super(key: key);
 
   final String productName;
-  final int productCost;
+  final String productCost;
   final String imagePath;
 
   @override
@@ -271,7 +271,7 @@ class _MapItemDetails extends StatelessWidget {
               width: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.fill, image: AssetImage(imagePath)),
+                    fit: BoxFit.fill, image: NetworkImage(imagePath)),
                 borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
             ),
@@ -290,7 +290,7 @@ class _MapItemDetails extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 30),
                   child: Text(
-                    '$productCost/u',
+                    "\$$productCost/u",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

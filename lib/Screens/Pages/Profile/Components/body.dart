@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
                 },
               ),
               ProfileMenu(
-                text: "Preferencias",
+                text: "Términos y condiciones",
                 icon: "assets/icons/Settings.svg",
                 press: () {
                   Get.to(() => Settings());

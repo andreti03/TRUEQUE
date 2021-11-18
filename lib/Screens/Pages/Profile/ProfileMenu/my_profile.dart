@@ -22,6 +22,7 @@ class _EditProfilePageState extends State<MyProfile> {
     // var imageasset = new AssetImage(controller.imagePath);
     // var image = new Image(image: imageasset, fit: BoxFit.cover);
     var image = Image.network(controller.imagePath, fit: BoxFit.cover,);
+    String gendervalue = controller.genderFunction();
     return GetX<Controller>(
       init: controller,
       builder: (Controller widCtrl) {
@@ -80,6 +81,32 @@ class _EditProfilePageState extends State<MyProfile> {
                 text: '',//fecha,
                 onChanged: (date) {},
               ),
+              const SizedBox(height: 20),
+              Text(
+            'Gender',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+              ),
+                ListTile(
+                leading: Radio(
+                  value: 'male',
+                  groupValue: gendervalue,
+                  onChanged: (value) {
+                    gendervalue = '$value';
+                    widCtrl.changedGender(true);
+                  },
+                ),
+              title: Text('Male')),
+                ListTile(
+                leading: Radio(
+                  value: 'female',
+                  groupValue: gendervalue,
+                  onChanged: (value) {
+                    gendervalue = '$value';
+                    widCtrl.changedGender(false);
+                  },
+                ),
+              title: Text('Female')),
             ],
           ),
         );
